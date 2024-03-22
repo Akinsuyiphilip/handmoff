@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-[url("/images/gradient-bg.svg")] bg-cover;
+}
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

@@ -1,7 +1,7 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 export const connectToDb = async () => {
-  const url = `mongodb+srv://webcraft570:${process.env.DB_PSWD}@cluster0.tw8k96o.mongodb.net/db`;
+  const url = process.env.DB_URL;
   try {
     const db = await mongoose.connect(url);
     console.log("connected to database at ", db.connection.host);

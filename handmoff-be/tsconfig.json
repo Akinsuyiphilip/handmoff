@@ -1,0 +1,30 @@
+{
+	"compilerOptions": {
+		/* Visit https://aka.ms/tsconfig to read more about this file */
+		"target": "ESNext",
+		"lib": ["DOM", "ES2016", "ESNext"],
+		"module": "NodeNext",
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+
+		/* Bundler mode*/
+		"resolveJsonModule": true,
+		"moduleResolution": "NodeNext",
+		"allowJs": true,
+		"rootDir": "./src",
+		"outDir": "./dist",
+		"baseUrl": "./src",
+		"paths": {
+			"@/": ["./src"]
+		},
+
+		/* Linting */
+		"strict": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"useDefineForClassFields": true,
+		"forceConsistentCasingInFileNames": true
+	},
+	"include": ["./src/**/*"]
+}

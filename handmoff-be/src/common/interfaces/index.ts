@@ -16,8 +16,9 @@ export interface RoomProps extends Document {
 	description: string
 	features: string[]
 	images: string[]
-	checkIn: Date | string
-	checkOut: Date | string
+	booked: boolean
+	checkIn: Date | string | null
+	checkOut: Date | string | null
 }
 
 export interface DataResponse {
@@ -42,4 +43,9 @@ export interface JwtResponse {
 export interface ExpressRequest extends Request {
 	user?: Document
 	token?: string
+}
+
+export interface PaginateDto {
+	limit?: number
+	page?: number
 }

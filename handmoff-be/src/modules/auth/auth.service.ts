@@ -2,9 +2,9 @@ import validator from "validator"
 import bcrypt from "bcrypt"
 
 import { SigninDto, SignupDto } from "./auth.dto"
-import { DataResponse } from "common/interfaces"
-import { sign } from "common/helpers"
-import { User } from "schema"
+import { DataResponse } from "../../common/interfaces"
+import { sign } from "../../common/helpers"
+import { User } from "../../schema"
 
 export const SignupService = async (payload: SignupDto) => {
 	try {

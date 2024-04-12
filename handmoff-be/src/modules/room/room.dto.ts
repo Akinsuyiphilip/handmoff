@@ -3,12 +3,16 @@ export interface CreateRoomDto {
 	price: number
 	description: string
 	features: string[]
-	images: string[]
+	images: Express.Multer.File[]
 }
 
-export interface UpdateRoomDto extends CreateRoomDto {}
+export interface UpdateRoomDto extends CreateRoomDto {
+	id: string
+}
 
 export interface BookRoomDto {
-	checkIn: Date
-	checkOu: Date
+	book: boolean
+	checkIn: Date | null
+	checkOut: Date | null
+	id: string
 }

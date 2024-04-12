@@ -1,9 +1,9 @@
 import { NextFunction, Response } from "express"
 
-import { HttpResponse, HttpStatus } from "common/constants"
-import { createError, verify } from "common/helpers"
-import { ExpressRequest } from "common/interfaces"
-import { User } from "schema"
+import { HttpResponse, HttpStatus } from "../../common/constants"
+import { createError, verify } from "../../common/helpers"
+import { ExpressRequest } from "../../common/interfaces"
+import { User } from "../../schema"
 
 export const authorize = async (req: ExpressRequest, _: Response, next: NextFunction) => {
 	const token = req.headers.authorization && req.headers.authorization.split(" ")[1]
@@ -19,7 +19,8 @@ export const authorize = async (req: ExpressRequest, _: Response, next: NextFunc
 		)
 	}
 	try {
-		const id = verify(token!)
+		const payload: any = verify(String(token))
+		const id = payload.id
 		const user = await User.findById(id)
 		if (!user) {
 			return next(

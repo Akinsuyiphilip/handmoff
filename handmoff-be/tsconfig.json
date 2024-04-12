@@ -12,7 +12,7 @@
 		"moduleResolution": "NodeNext",
 		"allowJs": true,
 		"rootDir": "./src",
-		"outDir": "./dist",
+		"outDir": "./build",
 		"baseUrl": "./src",
 		"paths": {
 			"@/": ["./src"]

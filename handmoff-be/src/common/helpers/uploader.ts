@@ -1,4 +1,4 @@
-import cloudinary from "common/constants/cloudinary"
+import cloudinary from "../constants/cloudinary"
 
 type Folder = "users" | "rooms"
 

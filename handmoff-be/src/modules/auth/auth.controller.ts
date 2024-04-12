@@ -1,9 +1,9 @@
 import { NextFunction, Response } from "express"
 
-import { createError, createResponse } from "common/helpers"
+import { createError, createResponse } from "../../common/helpers"
+import { HttpResponse, HttpStatus } from "../../common/constants"
 import { SigninService, SignupService } from "./auth.service"
-import { HttpResponse, HttpStatus } from "common/constants"
-import { ExpressRequest } from "common/interfaces"
+import { ExpressRequest } from "../../common/interfaces"
 import { SigninDto, SignupDto } from "./auth.dto"
 
 export const signup = async (req: ExpressRequest, res: Response, next: NextFunction) => {

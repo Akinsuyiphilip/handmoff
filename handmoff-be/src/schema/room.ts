@@ -1,6 +1,6 @@
 import { Schema, model } from "mongoose"
 
-import { RoomProps } from "common/interfaces"
+import { RoomProps } from "../common/interfaces"
 
 const room = new Schema<RoomProps>(
 	{
@@ -9,6 +9,7 @@ const room = new Schema<RoomProps>(
 		description: { type: String },
 		features: [{ type: String }],
 		images: [{ type: String }],
+		booked: { type: Boolean, default: false },
 		checkIn: { type: Date },
 		checkOut: { type: Date },
 	},

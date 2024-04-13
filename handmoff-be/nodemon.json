@@ -1,6 +1,0 @@
-{
-	"igonre": [".git", "node_modules", "build"],
-	"watch": ["src"],
-	"ext": ".ts, .js",
-	"exec": "ts-node ./src/index.ts"
-}

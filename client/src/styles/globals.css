@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&family=Yeseva+One&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+	font-synthesis: none;
+	text-rendering: optimizeLegibility;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	-webkit-text-size-adjust: 100%;
+
+	--hm-primary: #23385e;
+	--hm-secondary: #a6abbd;
+	--hm-accent: #fff6e7;
+	--hm-dark: #0d0501;
+	--hm-light: #fff6e7;
+
+	--heading-font: "Yeseva One", serif;
+	--base-font: "Space Grotesk", sans-serif;
+}
+
+@layer utilities {
+	.text-balance {
+		text-wrap: balance;
+	}
+}
+
+/* removes scrollbar */
+::-webkit-scrollbar {
+	width: 0;
+}
+
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background: var(--light);
+	color: var(--dark);
+	overflow-x: hidden;
+	width: 100%;
+}
+
+img {
+	image-rendering: crisp-edges -moz-crisp-edges;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	font-family: var(--heading-font);
+}
+
+a,
+p,
+span,
+button {
+	font-family: var(--base-font);
+}
+
+.link {
+	position: relative;
+	width: fit-content;
+}
+
+.link::before {
+	content: "";
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 0;
+	height: 2px;
+	background: var(--hm-light);
+	transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+	-moz-transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+	-webkit-transition: width 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.link.dark::before {
+	background: var(--hm-dark);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.link:hover::before {
+		left: 0;
+		right: auto;
+		width: 100%;
+	}
+}

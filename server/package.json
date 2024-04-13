@@ -10,7 +10,7 @@
 		"prettier:check": "prettier --check ./src/**/*.{ts,tsx}",
 		"dev": "nodemon",
 		"build": "rimraf build && npx tsc",
-		"start": "node build/index.js"
+		"start": "ts-node ./src/index.ts"
 	},
 	"keywords": [],
 	"author": "",

@@ -30,7 +30,7 @@ const initialValues: CreateRoomDto = {
 }
 
 const CreateRoom = () => {
-	const router= useRouter()
+	const router = useRouter()
 
 	const { data } = useQuery({
 		queryFn: () => instance.get(`${endpoints().room_type.find_all}`),
@@ -77,7 +77,7 @@ const CreateRoom = () => {
 			for (let i = 0; i <= features.length; i++) {
 				formData.append("features", features[i])
 			}
-			for (let i = 0; i <= values.images.length;i++) {
+			for (let i = 0; i <= values.images.length; i++) {
 				formData.append("images", values.images[i])
 			}
 			mutateAsync(formData)
@@ -115,7 +115,11 @@ const CreateRoom = () => {
 								</div>
 								<div className="w-full">
 									<Label htmlFor="description">Description</Label>
-									<Textarea name="description" onChange={handleChange} className="resize-none min-h-[150px]" />
+									<Textarea
+										name="description"
+										onChange={handleChange}
+										className="min-h-[150px] resize-none"
+									/>
 								</div>
 								<div className="w-full">
 									<Label htmlFor="features">Features</Label>

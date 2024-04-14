@@ -25,7 +25,7 @@ export const Appbar = ({}: Props) => {
 
 	return (
 		<nav
-			className={`left-0 top-0 !z-10 flex w-full items-center justify-center bg-black py-4 transition-all duration-500 lg:py-6 ${scrolled ? "fixed" : "static"}`}>
+			className={`left-0 top-0 !z-30 flex w-full items-center justify-center bg-black py-4 transition-all duration-500 lg:py-6 ${scrolled ? "fixed" : "static"}`}>
 			<div className="flex w-full max-w-[1200px] items-center justify-between px-4 lg:px-0">
 				<Link href="/">
 					<div className="relative aspect-[2.8/1] w-[75px] lg:w-[150px]">

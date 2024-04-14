@@ -19,7 +19,7 @@ const Home = () => {
 						<p className="text-xl text-gray-300 lg:text-3xl">
 							Enjoy the finest of Handmoff&apos;s great services at affordable rates
 						</p>
-						<Link href="/rooms">
+						<Link href="/room-types">
 							<Button size="lg">Explore</Button>
 						</Link>
 					</div>
@@ -65,7 +65,7 @@ const Home = () => {
 						<h2 className="max-w-[700px] text-3xl text-hm-light lg:text-6xl">
 							Check out what Handmoff has to offer
 						</h2>
-						<Link href="/rooms">
+						<Link href="/room-types">
 							<Button size="lg" variant="white">
 								Explore
 							</Button>

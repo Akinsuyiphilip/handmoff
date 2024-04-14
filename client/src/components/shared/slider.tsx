@@ -19,7 +19,7 @@ export const Slider = ({ images }: Props) => {
 	useEffect(() => {
 		const interval = setInterval(() => {
 			setCurrentIndex((currentIndex + 1) % length)
-		}, 10000)
+		}, 5000)
 		return () => clearInterval(interval)
 	})
 

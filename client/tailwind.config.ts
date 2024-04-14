@@ -30,7 +30,7 @@ const config = {
 				"hm-primary": "#23385e",
 				"hm-secondary": "#a6abbd",
 				"hm-accent": "#fff6e7",
-				"hm-dark": "#0d0501",
+				"hm-dark": "#000",
 				"hm-light": "#fff6e7",
 			},
 			keyframes: {

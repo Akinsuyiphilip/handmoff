@@ -1,12 +1,14 @@
+import { FilterQuery } from "mongoose"
+
 import { BookRoomDto, CreateRoomDto, UpdateRoomDto } from "./room.dto"
-import { DataResponse } from "../../common/interfaces"
+import { DataResponse, RoomProps } from "../../common/interfaces"
+import { Room, RoomType, User } from "../../schema"
 import { uploader } from "../../common/helpers"
-import { Room } from "../../schema"
 
 export const CreateRoomService = async (payload: CreateRoomDto) => {
 	type Key = keyof CreateRoomDto
 	try {
-		const { description, features, images, name, price } = payload
+		const { description, features, images, name, price, room_type } = payload
 		let response: DataResponse
 		Object.keys(payload).forEach((key) => {
 			if (!payload[key as Key]) {
@@ -25,6 +27,14 @@ export const CreateRoomService = async (payload: CreateRoomDto) => {
 			}
 			return response
 		}
+		const roomType = await RoomType.findById(room_type)
+		if (!roomType) {
+			response = {
+				error: true,
+				message: `This room type is invalid!`,
+			}
+			return response
+		}
 		const image_urls: string[] = []
 		for (let i = 0; i < images.length; i++) {
 			const url = await uploader(images[i].path, "rooms")
@@ -36,6 +46,7 @@ export const CreateRoomService = async (payload: CreateRoomDto) => {
 			features,
 			price,
 			images: image_urls,
+			room_type: roomType,
 		})
 		if (!room) {
 			response = {
@@ -54,7 +65,7 @@ export const CreateRoomService = async (payload: CreateRoomDto) => {
 		console.log(error)
 		const response: DataResponse = {
 			error: true,
-			message: error.message || "Unable to create account!",
+			message: error.message || "Unable to create room!",
 		}
 		return response
 	}
@@ -62,7 +73,7 @@ export const CreateRoomService = async (payload: CreateRoomDto) => {
 
 export const FindAllRoomsService = async () => {
 	try {
-		const rooms = await Room.find()
+		const rooms = await Room.find().populate("room_type")
 		const response: DataResponse = {
 			error: false,
 			message: "All rooms retrieved!",
@@ -73,7 +84,7 @@ export const FindAllRoomsService = async () => {
 		console.log(error)
 		const response: DataResponse = {
 			error: true,
-			message: error.message || "Unable to create account!",
+			message: error.message || "Unable to find rooms!",
 		}
 		return response
 	}
@@ -82,7 +93,7 @@ export const FindAllRoomsService = async () => {
 export const FindRoomService = async (id: string) => {
 	try {
 		let response: DataResponse
-		const room = await Room.findById(id)
+		const room = await Room.findById(id).populate("room_type")
 		if (!room) {
 			response = {
 				error: true,
@@ -100,7 +111,27 @@ export const FindRoomService = async (id: string) => {
 		console.log(error)
 		const response: DataResponse = {
 			error: true,
-			message: error.message || "Unable to create account!",
+			message: error.message || "Unable to find room!",
+		}
+		return response
+	}
+}
+
+export const FindRoomByTypeService = async (roomTypeId: string) => {
+	try {
+		const filter: FilterQuery<RoomProps> = { room_type: roomTypeId }
+		const rooms = await Room.find(filter).populate("room_type")
+		const response: DataResponse = {
+			error: false,
+			message: "All rooms retrieved!",
+			data: rooms,
+		}
+		return response
+	} catch (error: any) {
+		console.log(error)
+		const response: DataResponse = {
+			error: true,
+			message: error.message || "Unable to find rooms!",
 		}
 		return response
 	}
@@ -108,7 +139,7 @@ export const FindRoomService = async (id: string) => {
 
 export const BookRoomService = async (payload: BookRoomDto) => {
 	try {
-		const { book, checkIn, checkOut, id } = payload
+		const { book, checkIn, checkOut, id, user } = payload
 		let response: DataResponse
 		if (book) {
 			if (!checkIn || !checkOut) {
@@ -119,6 +150,14 @@ export const BookRoomService = async (payload: BookRoomDto) => {
 				return response
 			}
 		}
+		const foundUser = await User.findById(user)
+		if (!foundUser) {
+			response = {
+				error: true,
+				message: "Invalid user!",
+			}
+			return response
+		}
 		const room = await Room.findById(id)
 		if (!room) {
 			response = {
@@ -127,7 +166,7 @@ export const BookRoomService = async (payload: BookRoomDto) => {
 			}
 			return response
 		}
-		const bookedRoom = await Room.findByIdAndUpdate(
+		const updatedRoom = await Room.findByIdAndUpdate(
 			id,
 			{
 				checkIn: checkIn,
@@ -138,24 +177,25 @@ export const BookRoomService = async (payload: BookRoomDto) => {
 				new: true,
 			}
 		)
-		if (!bookedRoom) {
+		if (!updatedRoom) {
 			response = {
 				error: true,
 				message: "Unable to update booking!",
 			}
 			return response
 		}
+		const bookedRoom = await updatedRoom.populate("room_type")
 		response = {
 			error: false,
 			message: "Booking updated!",
-			data: room,
+			data: bookedRoom,
 		}
 		return response
 	} catch (error: any) {
 		console.log(error)
 		const response: DataResponse = {
 			error: true,
-			message: error.message || "Unable to create account!",
+			message: error.message || "Unable to book room!",
 		}
 		return response
 	}
@@ -195,7 +235,7 @@ export const UpdateRoomService = async (payload: UpdateRoomDto) => {
 		console.log(error)
 		const response: DataResponse = {
 			error: true,
-			message: error.message || "Unable to create account!",
+			message: error.message || "Unable to update room!",
 		}
 		return response
 	}
@@ -213,7 +253,7 @@ export const RemoveRoomService = async (id: string) => {
 		console.log(error)
 		const response: DataResponse = {
 			error: true,
-			message: error.message || "Unable to create account!",
+			message: error.message || "Unable to delete room!",
 		}
 		return response
 	}

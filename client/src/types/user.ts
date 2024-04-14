@@ -1,6 +1,6 @@
 export type UserProps = {
+	_id: string
 	email: string
-	id: string
 	name: string
 	username: string
 }

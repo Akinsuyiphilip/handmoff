@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
+import { useRouter } from "next/router"
 
 import { Appbar, Footer, RoomCard, Seo } from "@/components/shared"
-import { endpoints } from "@/config"
 import { RoomProps } from "@/types"
+import { endpoints } from "@/config"
 import { instance } from "@/lib"
 
 const Rooms = () => {
+	const router = useRouter()
+	const { id } = router.query
+
 	const { data } = useQuery({
-		queryFn: () => instance.get(`${endpoints().room.find_all}`),
-		queryKey: ["get-rooms"],
+		queryFn: () => instance.get(`${endpoints(String(id)).room.find_by_type}`),
+		queryKey: ["get-rooms-by-type", id],
+		enabled: !!id,
 	})
 
 	const [rooms, setRooms] = useState<RoomProps[]>([])
@@ -21,7 +26,7 @@ const Rooms = () => {
 
 	return (
 		<>
-			<Seo title="Rooms" />
+			<Seo title="Room Types" />
 			<Appbar />
 			<main className="w-full">
 				<div className="grid min-h-[50vh] w-full place-items-center bg-black/50 bg-hero bg-cover bg-center bg-no-repeat bg-blend-multiply">

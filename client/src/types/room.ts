@@ -1,3 +1,5 @@
+import { UserProps } from "."
+
 export type RoomProps = {
 	_id: string
 	name: string
@@ -8,4 +10,20 @@ export type RoomProps = {
 	booked: boolean
 	checkIn?: Date | null
 	checkOut?: Date | null
+	createdAt: string
+	updatedAt: string
+}
+
+export type RoomTypeProps = {
+	_id: string
+	name: string
+	description: string
+	image: string
+}
+
+export type BookingProps = {
+	_id: string
+	createdAt: Date
+	room: RoomProps
+	user: UserProps
 }

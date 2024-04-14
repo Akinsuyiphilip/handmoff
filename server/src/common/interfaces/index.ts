@@ -16,9 +16,23 @@ export interface RoomProps extends Document {
 	description: string
 	features: string[]
 	images: string[]
+	room_type: RoomTypeProps
 	booked: boolean
-	checkIn: Date | string | null
-	checkOut: Date | string | null
+	checkIn: Date | null
+	checkOut: Date | null
+}
+
+export interface RoomTypeProps extends Document {
+	id: ObjectId | string
+	name: string
+	description: string
+	image: string
+}
+
+export interface BookingProps extends Document {
+	id: ObjectId | string
+	user: UserProps
+	room: RoomProps
 }
 
 export interface DataResponse {

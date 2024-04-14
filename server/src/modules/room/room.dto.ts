@@ -4,6 +4,7 @@ export interface CreateRoomDto {
 	description: string
 	features: string[]
 	images: Express.Multer.File[]
+	room_type: string
 }
 
 export interface UpdateRoomDto extends CreateRoomDto {
@@ -15,4 +16,5 @@ export interface BookRoomDto {
 	checkIn: Date | null
 	checkOut: Date | null
 	id: string
+	user: string
 }

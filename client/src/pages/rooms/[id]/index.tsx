@@ -3,12 +3,12 @@ import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 import Image from "next/image"
 
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { Appbar, Booking, Footer, Seo } from "@/components/shared"
 import { formatCurrency, instance } from "@/lib"
 import { Button } from "@/components/ui/button"
 import { endpoints } from "@/config"
 import { RoomProps } from "@/types"
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 
 const StatusIndicator = {
 	false: "bg-green-200 text-green-600",
@@ -51,21 +51,21 @@ const Room = () => {
 										alt={room.name}
 										fill
 										sizes="(max-width;1024px) 100%"
-										className="rounded-2xl object-cover transition-all duration-500"
+										className="rounded-2xl object-fill transition-all duration-500"
 									/>
 								</div>
-								<div className="flex items-center gap-4">
+								<div className="grid w-full grid-cols-2 gap-4">
 									{room.images.map((image) => (
 										<div
 											key={image}
 											onClick={() => setCurrentImage(image)}
-											className="aspect-quare relative size-20 cursor-pointer rounded-md">
+											className="relative aspect-[3/2] w-full cursor-pointer rounded-md">
 											<Image
 												src={image}
 												alt={image}
 												fill
 												sizes="(max-width;1024px) 100%"
-												className="rounded-md object-cover"
+												className="rounded-md object-fill"
 											/>
 										</div>
 									))}
@@ -77,19 +77,27 @@ const Room = () => {
 									<p>{room.booked ? "Booked" : "Unbooked"}</p>
 								</div>
 								<h3 className="text-3xl capitalize lg:text-6xl">{room.name}</h3>
-								<h4 className="text-2xl lg:text-4xl">
+								<h4 className="text-xl lg:text-3xl">
 									{formatCurrency(room.price)}{" "}
 									<span className="font-base text-sm font-medium">per night</span>
 								</h4>
 								<div className="flex flex-col">
 									<h5 className="text-xl lg:text-2xl">Description</h5>
-									<p className="font-medium first-letter:capitalize lg:text-xl">
+									<p className="text-sm font-medium first-letter:capitalize lg:text-base">
 										{room.description}
 									</p>
 								</div>
 								<div className="flex flex-col">
 									<h5 className="text-xl lg:text-2xl">Features</h5>
-									<p className="font-medium capitalize lg:text-xl">{room.features[0]}</p>
+									<ul className="flex list-disc flex-col items-start gap-1 pl-5">
+										{room.features.map((feature, index) => (
+											<li
+												key={index}
+												className="text-sm font-medium capitalize lg:text-base">
+												{feature}
+											</li>
+										))}
+									</ul>
 								</div>
 								<Dialog open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
 									<DialogTrigger asChild>

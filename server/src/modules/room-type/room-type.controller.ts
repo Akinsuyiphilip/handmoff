@@ -1,26 +1,24 @@
 import { NextFunction, Response } from "express"
 
-import { BookRoomDto, CreateRoomDto, UpdateRoomDto } from "./room.dto"
+import { CreateRoomTypeDto, UpdateRoomTypeDto } from "./room-type.dto"
 import { createError, createResponse } from "../../common/helpers"
 import { HttpResponse, HttpStatus } from "../../common/constants"
 import { ExpressRequest } from "../../common/interfaces"
 import {
-	BookRoomService,
-	CreateRoomService,
-	FindAllRoomsService,
-	FindRoomByTypeService,
-	FindRoomService,
-	RemoveRoomService,
-	UpdateRoomService,
-} from "./room.service"
+	CreateRoomTypeService,
+	FindAllRoomTypeService,
+	FindRoomTypeService,
+	RemoveRoomTypeService,
+	UpdateRoomTypeService,
+} from "./room-type.service"
 
 export const create = async (req: ExpressRequest, res: Response, next: NextFunction) => {
 	try {
-		const payload: CreateRoomDto = {
+		const payload: CreateRoomTypeDto = {
 			...req.body,
-			images: req.files,
+			image: req.file,
 		}
-		const { error, message, data } = await CreateRoomService(payload)
+		const { error, message, data } = await CreateRoomTypeService(payload)
 		if (error) {
 			return next(
 				createError(HttpStatus.BAD_REQUEST, [
@@ -43,7 +41,7 @@ export const create = async (req: ExpressRequest, res: Response, next: NextFunct
 
 export const findAll = async (_: ExpressRequest, res: Response, next: NextFunction) => {
 	try {
-		const { error, message, data } = await FindAllRoomsService()
+		const { error, message, data } = await FindAllRoomTypeService()
 		if (error) {
 			return next(
 				createError(HttpStatus.BAD_REQUEST, [
@@ -67,60 +65,7 @@ export const findAll = async (_: ExpressRequest, res: Response, next: NextFuncti
 export const find = async (req: ExpressRequest, res: Response, next: NextFunction) => {
 	try {
 		const { id } = req.params
-		const { error, message, data } = await FindRoomService(id)
-		if (error) {
-			return next(
-				createError(HttpStatus.BAD_REQUEST, [
-					{
-						status: HttpResponse.ERROR,
-						message,
-						statusCode:
-							data instanceof Error ? HttpStatus.SERVER_ERROR : HttpStatus.BAD_REQUEST,
-						data,
-					},
-				])
-			)
-		}
-		return createResponse(message, data)(res, HttpStatus.OK)
-	} catch (error: any) {
-		console.log(error)
-		return next(createError.InternalServerError(error))
-	}
-}
-
-export const findByType = async (
-	req: ExpressRequest,
-	res: Response,
-	next: NextFunction
-) => {
-	try {
-		const { id } = req.params
-		const { error, message, data } = await FindRoomByTypeService(id)
-		if (error) {
-			return next(
-				createError(HttpStatus.BAD_REQUEST, [
-					{
-						status: HttpResponse.ERROR,
-						message,
-						statusCode:
-							data instanceof Error ? HttpStatus.SERVER_ERROR : HttpStatus.BAD_REQUEST,
-						data,
-					},
-				])
-			)
-		}
-		return createResponse(message, data)(res, HttpStatus.OK)
-	} catch (error: any) {
-		console.log(error)
-		return next(createError.InternalServerError(error))
-	}
-}
-
-export const book = async (req: ExpressRequest, res: Response, next: NextFunction) => {
-	try {
-		const { id } = req.params
-		const payload: BookRoomDto = { ...req.body, id }
-		const { error, message, data } = await BookRoomService(payload)
+		const { error, message, data } = await FindRoomTypeService(id)
 		if (error) {
 			return next(
 				createError(HttpStatus.BAD_REQUEST, [
@@ -144,12 +89,12 @@ export const book = async (req: ExpressRequest, res: Response, next: NextFunctio
 export const update = async (req: ExpressRequest, res: Response, next: NextFunction) => {
 	try {
 		const { id } = req.params
-		const payload: UpdateRoomDto = {
+		const payload: UpdateRoomTypeDto = {
 			...req.body,
 			id,
-			images: req.files,
+			image: req.file,
 		}
-		const { error, message, data } = await UpdateRoomService(payload)
+		const { error, message, data } = await UpdateRoomTypeService(payload)
 		if (error) {
 			return next(
 				createError(HttpStatus.BAD_REQUEST, [
@@ -173,7 +118,7 @@ export const update = async (req: ExpressRequest, res: Response, next: NextFunct
 export const remove = async (req: ExpressRequest, res: Response, next: NextFunction) => {
 	try {
 		const { id } = req.params
-		const { error, message, data } = await RemoveRoomService(id)
+		const { error, message, data } = await RemoveRoomTypeService(id)
 		if (error) {
 			return next(
 				createError(HttpStatus.BAD_REQUEST, [

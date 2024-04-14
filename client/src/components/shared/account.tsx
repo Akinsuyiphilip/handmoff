@@ -29,9 +29,11 @@ export const Account = ({ user }: Props) => {
 						<AvatarImage src="" alt={user?.name} className="object-cover" />
 						<AvatarFallback>{initials(String(user?.name))}</AvatarFallback>
 					</Avatar>
-					<div className="flex flex-col">
-						<p className="text-sm text-hm-light">{user?.name}</p>
-						<p className="text-xs font-medium text-gray-300">{user?.email}</p>
+					<div className="flex flex-col items-start">
+						<p className="text-sm capitalize text-hm-light">{user?.name}</p>
+						<p className="text-xs font-medium lowercase text-gray-300">
+							{user?.email}
+						</p>
 					</div>
 				</button>
 			</PopoverTrigger>

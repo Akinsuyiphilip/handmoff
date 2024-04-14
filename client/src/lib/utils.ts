@@ -14,10 +14,13 @@ export const formatCurrency = (value: number) => {
 	}).format(value)
 }
 
-export const formatDate = (date: string) => {
+export const formatDate = (date?: string) => {
+	if (!date) {
+		return "Invalid date"
+	}
 	return new Intl.DateTimeFormat("en-NG", {
 		day: "numeric",
-		month: "short",
+		month: "long",
 		year: "numeric",
 	}).format(new Date(date))
 }

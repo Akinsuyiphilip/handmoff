@@ -121,7 +121,7 @@ const CheckOut = () => {
 										</div>
 									</div>
 								</div>
-								<Payment amount={lengthOfStay * room.price} user={user} />
+								<Payment amount={lengthOfStay * room.price * 100} user={user} />
 							</div>
 						</div>
 					</div>

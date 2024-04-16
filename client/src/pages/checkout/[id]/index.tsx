@@ -3,11 +3,9 @@ import { useQuery } from "@tanstack/react-query"
 import { useRouter } from "next/router"
 import QrCode from "react-qr-code"
 
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog"
 import { calculateStay, formatCurrency, formatDate, instance } from "@/lib"
-import { Appbar, Footer, Seo } from "@/components/shared"
+import { Appbar, Footer, Payment, Seo } from "@/components/shared"
 import { useUserStore } from "@/store/z-store/user"
-import { Button } from "@/components/ui/button"
 import { RoomProps } from "@/types"
 import { endpoints } from "@/config"
 
@@ -123,12 +121,7 @@ const CheckOut = () => {
 										</div>
 									</div>
 								</div>
-								<Dialog>
-									<DialogTrigger asChild>
-										<Button size="lg">Pay Now</Button>
-									</DialogTrigger>
-									<DialogContent></DialogContent>
-								</Dialog>
+								<Payment amount={lengthOfStay * room.price} user={user} />
 							</div>
 						</div>
 					</div>

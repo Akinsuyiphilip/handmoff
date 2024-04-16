@@ -42,7 +42,7 @@ export const Appbar = ({}: Props) => {
 						<Link
 							key={href}
 							href={href}
-							className={`link font-medium capitalize ${pathname === href ? "text-hm-light" : "text-hm-light/75"}`}>
+							className={`link font-medium capitalize ${pathname === href ? "text-hm-light" : "text-hm-light/60"}`}>
 							{name}
 						</Link>
 					))}

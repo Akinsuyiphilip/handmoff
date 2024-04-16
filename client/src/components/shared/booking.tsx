@@ -39,7 +39,7 @@ export const Booking = ({ onClose, room }: Props) => {
 			} = data
 			toast.success(message)
 			onClose()
-			queryClient.invalidateQueries({ queryKey: ["get-room"] })
+			queryClient.invalidateQueries({ queryKey: ["get-room", "get-rooms"] })
 			if (booked) {
 				router.push(`/checkout/${_id}`)
 			}

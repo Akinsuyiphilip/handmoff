@@ -6,6 +6,13 @@ export const endpoints = (param?: string | null, query?: string) => {
 		signin: `${baseUrl}/auth/signin`,
 	}
 
+	const user = {
+		find_all: `${baseUrl}/users`,
+		find_one: `${baseUrl}/users/${param}`,
+		update: `${baseUrl}/users/update/${param}`,
+		remove: `${baseUrl}/users/remove/${param}`,
+	}
+
 	const room = {
 		create: `${baseUrl}/rooms/create`,
 		find_all: `${baseUrl}/rooms?${query}`,
@@ -35,5 +42,6 @@ export const endpoints = (param?: string | null, query?: string) => {
 		booking,
 		room,
 		room_type,
+		user,
 	}
 }

@@ -64,15 +64,20 @@ export const Account = ({ user }: Props) => {
 							)
 						} else {
 							return (
-								<Dialog key={item.name} open={isOpen} onOpenChange={() => setIsOpen(!isOpen)}>
+								<Dialog
+									key={item.name}
+									open={isOpen}
+									onOpenChange={() => setIsOpen(!isOpen)}>
 									<DialogTrigger asChild>
-								<button
-									className="rounded px-2 py-1 text-left capitalize text-red-500 hover:bg-red-200">
-									{item.name}
-								</button>
+										<button className="rounded px-2 py-1 text-left capitalize text-red-500 hover:bg-red-200">
+											{item.name}
+										</button>
 									</DialogTrigger>
 									<DialogContent>
-										<SignOut handleClose={() => setIsOpen(false)} handleSignOut={handleSignOut} />
+										<SignOut
+											handleClose={() => setIsOpen(false)}
+											handleSignOut={handleSignOut}
+										/>
 									</DialogContent>
 								</Dialog>
 							)
@@ -88,20 +93,24 @@ const LIST = [{ name: "account", href: "/me" }, { name: "signout" }]
 
 function SignOut({
 	handleClose,
-	handleSignOut
-}:{
+	handleSignOut,
+}: {
 	handleClose: () => void
 	handleSignOut: () => void
 }) {
 	return (
-		<div className="w-full min-h-[350px] flex flex-col items-center justify-center gap-6 px-4 text-center">
-			<p className="text-2xl lg:text-4xl font-semibold">
-				Sign Out?
+		<div className="flex min-h-[350px] w-full flex-col items-center justify-center gap-6 px-4 text-center">
+			<p className="text-2xl font-semibold lg:text-4xl">Sign Out?</p>
+			<p className="text-lg">
+				Are you sure you want to sign out? Your current session will be terminated.
 			</p>
-			<p className="text-lg">Are you sure you want to sign out? Your current session will be terminated.</p>
-			<div className="w-full grid grid-cols-2 gap-5">
-				<Button variant="outline" onClick={handleClose}>Cancel</Button>
-				<Button variant="destructive" onClick={handleSignOut}>Sign Out</Button>
+			<div className="grid w-full grid-cols-2 gap-5">
+				<Button variant="outline" onClick={handleClose}>
+					Cancel
+				</Button>
+				<Button variant="destructive" onClick={handleSignOut}>
+					Sign Out
+				</Button>
 			</div>
 		</div>
 	)

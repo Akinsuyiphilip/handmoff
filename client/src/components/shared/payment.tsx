@@ -25,7 +25,6 @@ export const Payment = ({ amount, user }: Props) => {
 	const onSuccess = () => {
 		toast.success("Payment made!")
 		router.push("/")
-
 	}
 
 	const onClose = () => {

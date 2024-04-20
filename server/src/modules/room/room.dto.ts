@@ -16,5 +16,8 @@ export interface BookRoomDto {
 	checkIn: Date | null
 	checkOut: Date | null
 	id: string
-	user: string
+	name: string
+	email: string
+	occupants: number
+	phone: string
 }

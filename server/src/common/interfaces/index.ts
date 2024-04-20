@@ -30,8 +30,11 @@ export interface RoomTypeProps extends Document {
 }
 
 export interface BookingProps extends Document {
+	guest_email: string
+	guest_name: string
+	guest_phone: string
 	id: ObjectId | string
-	user: UserProps
+	occupants: number
 	room: RoomProps
 }
 

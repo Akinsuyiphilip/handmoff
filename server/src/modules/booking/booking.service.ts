@@ -3,7 +3,7 @@ import { Booking } from "../../schema"
 
 export const FindAllBookingService = async () => {
 	try {
-		const bookings = await Booking.find().populate("user", "room")
+		const bookings = await Booking.find().populate("room")
 		const response: DataResponse = {
 			error: false,
 			message: "All booking retrieved!",
@@ -23,7 +23,7 @@ export const FindAllBookingService = async () => {
 export const FindBookingService = async (id: string) => {
 	try {
 		let response: DataResponse
-		const booking = await Booking.findById(id).populate("user", "room")
+		const booking = await Booking.findById(id).populate("room")
 		if (!booking) {
 			response = {
 				error: true,

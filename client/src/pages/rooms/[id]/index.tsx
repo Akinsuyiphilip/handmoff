@@ -74,7 +74,7 @@ const Room = () => {
 							<div className="flex w-full flex-col items-start gap-5 text-left">
 								<div
 									className={`w-fit rounded px-2 py-1 ${StatusIndicator[room.booked ? "true" : "false"]}`}>
-									<p>{room.booked ? "Booked" : "Unbooked"}</p>
+									<p>{room.booked ? "Booked" : "Free"}</p>
 								</div>
 								<h3 className="text-3xl capitalize lg:text-6xl">{room.name}</h3>
 								<h4 className="text-xl lg:text-3xl">

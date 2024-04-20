@@ -5,37 +5,35 @@ import QrCode from "react-qr-code"
 
 import { calculateStay, formatCurrency, formatDate, instance } from "@/lib"
 import { Appbar, Footer, Payment, Seo } from "@/components/shared"
-import { useUserStore } from "@/store/z-store/user"
-import { RoomProps } from "@/types"
+import { BookingProps } from "@/types"
 import { endpoints } from "@/config"
 
 const CheckOut = () => {
 	const [lengthOfStay, setLenghtOfStay] = useState(0)
-	const { user } = useUserStore()
 	const router = useRouter()
 	const { id } = router.query
 
 	const { data } = useQuery({
-		queryFn: () => instance.get(`${endpoints(String(id)).room.find_one}`),
+		queryFn: () => instance.get(`${endpoints(String(id)).booking.find_one}`),
 		queryKey: ["get-room", id],
 		enabled: !!id,
 	})
 
-	const [room, setRoom] = useState<RoomProps>()
+	const [booking, setBooking] = useState<BookingProps>()
 	useEffect(() => {
-		setRoom(data?.data.data)
+		setBooking(data?.data.data)
 	}, [data])
 
 	useEffect(() => {
-		if (room?.checkIn && room.checkOut) {
-			const checkIn = room.checkIn.toString()
-			const checkOut = room.checkOut.toString()
+		if (booking?.room?.checkIn && booking?.room.checkOut) {
+			const checkIn = booking.room.checkIn.toString()
+			const checkOut = booking.room.checkOut.toString()
 			const length = calculateStay(checkIn, checkOut)
 			setLenghtOfStay(length)
 		}
-	}, [room?.checkIn, room?.checkOut])
+	}, [booking?.room?.checkIn, booking?.room?.checkOut])
 
-	if (!room) return null
+	if (!booking) return null
 
 	return (
 		<>
@@ -50,44 +48,52 @@ const CheckOut = () => {
 								<div className="flex w-full flex-col gap-4">
 									<div className="flex w-full flex-col border-b">
 										<p className="text-gray-500">Name</p>
-										<p className="text-lg font-medium capitalize">{user?.name}</p>
+										<p className="text-lg font-medium capitalize">{booking.guest_name}</p>
 									</div>
 									<div className="flex w-full flex-col border-b">
 										<p className="text-gray-500">Email</p>
-										<p className="text-lg font-medium lowercase">{user?.email}</p>
+										<p className="text-lg font-medium lowercase">{booking.guest_email}</p>
+									</div>
+									<div className="flex w-full flex-col border-b">
+										<p className="text-gray-500">Phone Number</p>
+										<p className="text-lg font-medium lowercase">{booking.guest_phone}</p>
 									</div>
 									<div className="flex w-full flex-col border-b">
 										<p className="text-gray-500">Booking Date Date</p>
-										<p className="text-lg font-medium">{formatDate(room.createdAt)}</p>
+										<p className="text-lg font-medium">
+											{formatDate(booking.createdAt.toString())}
+										</p>
 									</div>
 									<div className="flex w-full flex-col border-b">
 										<p className="text-gray-500">Check-in Date</p>
 										<p className="text-lg font-medium">
-											{formatDate(room.checkIn?.toString())}
+											{formatDate(booking.room.checkIn?.toString())}
 										</p>
 									</div>
 									<div className="flex w-full flex-col border-b">
 										<p className="text-gray-500">Check-out Date</p>
 										<p className="text-lg font-medium">
-											{formatDate(room.checkOut?.toString())}
+											{formatDate(booking.room.checkOut?.toString())}
 										</p>
 									</div>
 								</div>
 								<div className="flex w-full flex-col gap-4">
 									<div className="flex flex-col">
 										<p className="text-lg font-medium">Name</p>
-										<p className="text-gray-500 first-letter:capitalize">{room.name}</p>
+										<p className="text-gray-500 first-letter:capitalize">
+											{booking.room.name}
+										</p>
 									</div>
 									<div className="flex flex-col">
 										<p className="text-lg font-medium">Description</p>
 										<p className="text-gray-500 first-letter:capitalize">
-											{room.description}
+											{booking.room.description}
 										</p>
 									</div>
 									<div className="flex flex-col">
 										<p className="text-lg font-medium">Features</p>
 										<ul className="flex list-disc flex-col items-start gap-1 pl-5">
-											{room.features.map((feature, index) => (
+											{booking.room.features.map((feature, index) => (
 												<li key={index} className="capitalize text-gray-500">
 													{feature}
 												</li>
@@ -103,9 +109,13 @@ const CheckOut = () => {
 									</div>
 									<div className="flex w-full flex-col gap-2 bg-black p-4 text-white">
 										<div className="flex w-full items-center justify-between">
+											<p className="text-gray-200">Number of guests</p>
+											<p className="font-medium">{booking.occupants}</p>
+										</div>
+										<div className="flex w-full items-center justify-between">
 											<p className="text-gray-200">{lengthOfStay} day(s)</p>
 											<p className="font-medium">
-												{formatCurrency(lengthOfStay * room.price)}
+												{formatCurrency(lengthOfStay * booking.room.price)}
 											</p>
 										</div>
 										<div className="flex w-full items-center justify-between">
@@ -116,12 +126,17 @@ const CheckOut = () => {
 										<div className="flex w-full items-center justify-between text-lg">
 											<p className="text-gray-200">Total</p>
 											<p className="font-medium">
-												{formatCurrency(lengthOfStay * room.price)}
+												{formatCurrency(lengthOfStay * booking.room.price)}
 											</p>
 										</div>
 									</div>
 								</div>
-								<Payment amount={lengthOfStay * room.price * 100} user={user} />
+								<Payment
+									amount={lengthOfStay * booking.room.price * 100}
+									email={booking.guest_email}
+									name={booking.guest_name}
+									phone={booking.guest_phone}
+								/>
 							</div>
 						</div>
 					</div>

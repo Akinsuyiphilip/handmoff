@@ -19,13 +19,13 @@ export const RoomCard = ({ room }: RoomCardProps) => {
 		<Link
 			href={`/rooms/${room._id}`}
 			className="group flex w-full flex-col gap-2">
-			<div className="relative aspect-[3/2] w-full rounded-xl">
+			<div className="relative aspect-[3/2] w-full rounded-xl border-2">
 				<Image
 					src={room.images[0]}
 					alt={room.name}
 					fill
 					sizes="(max-width;1024px) 100%"
-					className="rounded-xl object-fill grayscale transition-all duration-300 group-hover:grayscale-0"
+					className="rounded-xl object-fill"
 				/>
 				<div
 					className={`absolute right-4 top-4 !z-10 w-fit rounded px-2 py-1 text-xs ${StatusIndicator[room.booked ? "true" : "false"]}`}>

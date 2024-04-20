@@ -2,7 +2,7 @@ import { FilterQuery } from "mongoose"
 
 import { BookRoomDto, CreateRoomDto, UpdateRoomDto } from "./room.dto"
 import { DataResponse, RoomProps } from "../../common/interfaces"
-import { Room, RoomType, User } from "../../schema"
+import { Booking, Room, RoomType } from "../../schema"
 import { uploader } from "../../common/helpers"
 
 export const CreateRoomService = async (payload: CreateRoomDto) => {
@@ -139,22 +139,63 @@ export const FindRoomByTypeService = async (roomTypeId: string) => {
 
 export const BookRoomService = async (payload: BookRoomDto) => {
 	try {
-		const { book, checkIn, checkOut, id, user } = payload
+		const { book, checkIn, checkOut, email, id, name, occupants, phone } = payload
 		let response: DataResponse
 		if (book) {
-			if (!checkIn || !checkOut) {
+			for (const key in payload) {
+				if (!payload[key as keyof BookRoomDto]) {
+					response = {
+						error: true,
+						message: `${key} is required!`,
+					}
+					return response
+				}
+			}
+			const room = await Room.findById(id)
+			if (!room) {
 				response = {
 					error: true,
-					message: "Check in and check out dates are required!",
+					message: "Room does not exist!",
 				}
 				return response
 			}
-		}
-		const foundUser = await User.findById(user)
-		if (!foundUser) {
+			const updatedRoom = await Room.findByIdAndUpdate(
+				id,
+				{
+					checkIn: checkIn,
+					checkOut: checkOut,
+					booked: book,
+				},
+				{
+					new: true,
+				}
+			)
+			if (!updatedRoom) {
+				response = {
+					error: true,
+					message: "Unable to update booking!",
+				}
+				return response
+			}
+			const booking = await Booking.create({
+				guest_email: email,
+				guest_name: name,
+				guest_phone: phone,
+				occupants,
+				room: updatedRoom,
+			})
+			if (!booking) {
+				response = {
+					error: true,
+					message: "Booking failed!",
+				}
+				return response
+			}
+			await booking.populate("room")
 			response = {
-				error: true,
-				message: "Invalid user!",
+				error: false,
+				message: "Booking updated!",
+				data: booking,
 			}
 			return response
 		}
@@ -184,11 +225,9 @@ export const BookRoomService = async (payload: BookRoomDto) => {
 			}
 			return response
 		}
-		const bookedRoom = await updatedRoom.populate("room_type")
 		response = {
 			error: false,
 			message: "Booking updated!",
-			data: bookedRoom,
 		}
 		return response
 	} catch (error: any) {

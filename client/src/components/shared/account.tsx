@@ -89,7 +89,12 @@ export const Account = ({ user }: Props) => {
 	)
 }
 
-const LIST = [{ name: "account", href: "/me" }, { name: "signout" }]
+const LIST = [
+	{ name: "account", href: "/me" },
+	{ name: "create room", href: "/rooms/create" },
+	{ name: "bookings", href: "/bookings" },
+	{ name: "signout" },
+]
 
 function SignOut({
 	handleClose,

@@ -32,7 +32,7 @@ const Signin = () => {
 			} = data
 			signIn(user, token)
 			toast.success(message)
-			router.push("/room-types")
+			router.push("/")
 		},
 		onError: ({ response }: HttpError) => {
 			const { message } = response.data

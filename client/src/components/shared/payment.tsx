@@ -4,27 +4,32 @@ import { toast } from "sonner"
 import React from "react"
 
 import { Button } from "@/components/ui/button"
-import { UserProps } from "@/types"
+import { PaystackResponse } from "@/types"
+import { encodeQueryParams } from "@/lib"
 
 interface Props {
 	amount: number
-	user: UserProps | null
+	email: string
+	name: string
+	phone: string
 }
 
-export const Payment = ({ amount, user }: Props) => {
+export const Payment = ({ amount, email, name, phone }: Props) => {
 	const router = useRouter()
 
 	const config = {
 		amount,
-		email: String(user?.email),
-		firstname: String(user?.name.split(" ")[0]),
-		lastname: String(user?.name.split(" ")[1]),
+		email,
+		phone,
+		firstname: name.split(" ")[0],
+		lastname: name.split(" ")[1],
 		publicKey: process.env.NEXT_PUBLIC_PAYSTACK_PUBLIC_KEY,
 	}
 
-	const onSuccess = () => {
+	const onSuccess = (response: PaystackResponse) => {
 		toast.success("Payment made!")
-		router.push("/")
+		const data = encodeQueryParams(response)
+		router.push(`/reciept?${data}`)
 	}
 
 	const onClose = () => {

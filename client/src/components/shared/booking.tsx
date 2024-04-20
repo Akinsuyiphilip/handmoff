@@ -19,7 +19,15 @@ interface Props {
 	room: RoomProps
 }
 
-const initialValues = { book: false, checkIn: "", checkOut: "" }
+const initialValues = {
+	book: false,
+	checkIn: "",
+	checkOut: "",
+	email: "",
+	name: "",
+	phone: "",
+	occupant: 1,
+}
 
 export const Booking = ({ onClose, room }: Props) => {
 	const today = new Date().toISOString().split("T")[0]
@@ -34,13 +42,13 @@ export const Booking = ({ onClose, room }: Props) => {
 		mutationKey: ["book"],
 		onSuccess: ({ data }) => {
 			const {
-				data: { _id, booked },
+				data: { _id, room },
 				message,
 			} = data
 			toast.success(message)
 			onClose()
 			queryClient.invalidateQueries({ queryKey: ["get-room", "get-rooms"] })
-			if (booked) {
+			if (room.booked) {
 				router.push(`/checkout/${_id}`)
 			}
 		},
@@ -68,7 +76,7 @@ export const Booking = ({ onClose, room }: Props) => {
 	}, [values.checkIn, values.checkOut])
 
 	return (
-		<div className="grid h-[400px] w-full place-items-center">
+		<div className="grid min-h-[400px] w-full place-items-center">
 			<div className="flex w-full flex-col items-center gap-4">
 				<p className="text-3xl font-medium">Book Room</p>
 				<p className="text-2xl font-bold capitalize">{room.name}</p>
@@ -87,6 +95,26 @@ export const Booking = ({ onClose, room }: Props) => {
 					</form>
 				) : (
 					<form onSubmit={handleSubmit} className="flex w-full flex-col gap-4">
+						<div className="grid w-full grid-cols-2 items-center gap-4">
+							<div className="w-full">
+								<Label htmlFor="name">Name</Label>
+								<Input type="text" name="name" onChange={handleChange} />
+							</div>
+							<div className="w-full">
+								<Label htmlFor="email">Email</Label>
+								<Input type="email" name="email" onChange={handleChange} />
+							</div>
+						</div>
+						<div className="grid w-full grid-cols-2 items-center gap-4">
+							<div className="w-full">
+								<Label htmlFor="phone">Phone</Label>
+								<Input type="tel" name="phone" onChange={handleChange} />
+							</div>
+							<div className="w-full">
+								<Label htmlFor="occupants">Number of Occupants</Label>
+								<Input type="number" name="occupants" onChange={handleChange} min={1} />
+							</div>
+						</div>
 						<div className="grid w-full grid-cols-2 items-center gap-4">
 							<div className="w-full">
 								<Label htmlFor="checkIn">Check-In Date</Label>

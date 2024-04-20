@@ -1,5 +1,3 @@
-import { UserProps } from "."
-
 export type RoomProps = {
 	_id: string
 	name: string
@@ -24,6 +22,9 @@ export type RoomTypeProps = {
 export type BookingProps = {
 	_id: string
 	createdAt: Date
+	guest_email: string
+	guest_name: string
+	guest_phone: string
+	occupants: number
 	room: RoomProps
-	user: UserProps
 }
